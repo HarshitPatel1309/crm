@@ -23,6 +23,13 @@
     }else{
         $reltxttable1_val3 = $reltxttable1_val2;
         $reltxtfiled1_val3 = $reltxtfiled1_val2;
+
+        $sqlij1 = "insert into tbl_relationship values(NULL,'".$table_name."','".$txtfiled1_val1."','".$reltxttable1_val3."','".$reltxtfiled1_val3."')";
+            if (mysqli_query($conn, $sqlij1)) {
+                // echo "Users Insert successfully"; 
+            } else {
+                echo "Error: " . $sqlij1 . "" . mysqli_error($conn);
+            }
     }
 
     $sqlij = "ALTER TABLE $table_name ADD  `$txtfiled1_val1` $txtfiledtype1_val3 NULL";
@@ -33,12 +40,7 @@
         echo "Error: " . $sqlij . "" . mysqli_error($conn);
     }
 
-    $sqlij1 = "insert into tbl_relationship values(NULL,'".$table_name."','".$txtfiled1_val1."','".$reltxttable1_val3."','".$reltxtfiled1_val3."')";
-    if (mysqli_query($conn, $sqlij1)) {
-        // echo "Users Insert successfully"; 
-    } else {
-        echo "Error: " . $sqlij1 . "" . mysqli_error($conn);
-    }
+    
 ?>
 
   

@@ -58,7 +58,7 @@ if (isset($_POST['matchfiled'])){
     } else {
       while($row3=mysqli_fetch_array($result3))
       { ?>
-         <option value=<?php echo $row3['filedname'];?>><?php echo $row3['filedname'];?></option>
+         <option value="<?php echo $row3['filedname'];?>"><?php echo $row3['filedname'];?></option>
         <?php
       }
     }
@@ -74,11 +74,88 @@ if (isset($_POST['matchfiled'])){
     $result4=mysqli_query($conn,$sqln4);
       while ($row4 = mysqli_fetch_assoc($result4)) {
         ?>
-        <option value=<?php echo $row4['Field'];?>><?php echo $row4['Field'];?></option>
+        <option value="<?php echo $row4['Field'];?>"><?php echo $row4['Field'];?></option>
         <?php
       }
-
-
   }
 // FILED TYPE DATABASE
+
+   // FILED TYPE DATABASE
+  if (isset($_POST['tablerec_id'])){  
+    $data4 = $_POST['tablerec_id'];
+
+    $result5=mysqli_query($conn,"SHOW TABLES");
+    if ($result5->num_rows <= 0) {
+        echo "00000";
+    } else {
+    while($row=mysqli_fetch_array($result5))
+    {
+        if ('tbl_role' === $row['Tables_in_' . $dbname] || 'tbl_users' === $row['Tables_in_' . $dbname] || 'tbl_login' === $row['Tables_in_' . $dbname] || 'tbl_filedset' === $row['Tables_in_' . $dbname] || 'tbl_showhide' === $row['Tables_in_' . $dbname] || 'tbl_Payment_Type' === $row['Tables_in_' . $dbname]) {
+        }else{
+          ?>
+            <option value='<?php echo $row['Tables_in_' . $dbname]; ?>'><?php echo $row['Tables_in_' . $dbname]; ?></option>
+          <?php
+        }
+    }
+    }
+  }
+// FILED TYPE DATABASE
+
+
+  // UPDATE RELATION TABLE DATA
+  if (isset($_POST['tnames_id'])){  
+    $data6 = $_POST['tnames_id'];
+    $fnames_ids = $_POST['fnames_id'];
+
+    $sqln6 = "SELECT * FROM `tbl_relationship` WHERE `tablename` ='".$data6."' AND `filedname` ='".$fnames_ids."'";
+    $result6=mysqli_query($conn,$sqln6);
+    if ($result6->num_rows <= 0) {
+        $allvals6['output_sn'] = "00000";
+    } else {
+      while($row6=mysqli_fetch_array($result6))
+      {
+        $allvals6['relationtable_sn'] = $row6['relationtable'];
+        $allvals6['relationfiled_sn'] = $row6['relationfiled'];
+        $allvals6['output_sn'] = "11111";
+      }
+    }
+    print_r(json_encode($allvals6));
+  }
+  // UPDATE RELATION TABLE DATA
+
+
+  // VIEW RELATION SHIP TABLE MATCH
+  if (isset($_POST['relationtable_sn'])){  
+    $data7 = $_POST['relationtable_sn'];
+
+    $result6=mysqli_query($conn,"SHOW TABLES");
+    if ($result6->num_rows <= 0) {
+        echo "00000";
+    } else {
+    while($row7=mysqli_fetch_array($result6))
+    {
+        if ('tbl_role' === $row7['Tables_in_' . $dbname] || 'tbl_users' === $row7['Tables_in_' . $dbname] || 'tbl_login' === $row7['Tables_in_' . $dbname] || 'tbl_filedset' === $row7['Tables_in_' . $dbname] || 'tbl_showhide' === $row7['Tables_in_' . $dbname] || 'tbl_Payment_Type' === $row7['Tables_in_' . $dbname]) {
+        }else{
+          ?>
+            <option value="<?php echo $row7['Tables_in_' . $dbname];?>"<?php if($row7['Tables_in_' . $dbname]==$data7){?> selected="selected" <?php } ?>><?php echo $row7['Tables_in_' . $dbname];?></option>
+          <?php
+        }
+    }
+    }
+  }
+  // VIEW RELATION SHIP TABLE MATCH
+
+  // VIEW RELATION TABLE FILED
+  if (isset($_POST['relationfiled_sn'])){  
+    $data8 = $_POST['relationfiled_sn'];
+
+    $sqln8 = "DESCRIBE ".$_POST['relationtable_sn']."";
+    $result8=mysqli_query($conn,$sqln8);
+      while ($row8 = mysqli_fetch_assoc($result8)) {
+        ?>
+        <option value="<?php echo $row8['Field'];?>"<?php if($row8['Field']==$data8){?> selected="selected" <?php } ?>><?php echo $row8['Field'];?></option>
+        <?php
+      }
+  }
+  // VIEW RELATION TABLE FILED
 ?>
