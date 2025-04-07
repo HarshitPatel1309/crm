@@ -35,16 +35,12 @@
             ?>
                 <div class="col-sm-1"></div>
                 <div class="col-sm-2 bordered">
-                  <!-- <div class="form-group"> -->
                     <input type="hidden" name="hidetxtold<?php echo $olds; ?>" id="hidetxtold<?php echo $olds; ?>" class="form-control" placeholder="Filed Name" value="<?php echo $row['Field']; ?>">
                     <label><?php echo $row['Field']; ?> <span class="required" style="color: red;">*</span></label>
-                  <!-- </div> -->
                 </div>
                 <div class="col-sm-2 bordered">
-                  <!-- <div class="form-group"> -->
                     <input type="radio" name="<?php echo $row['Field']; ?>" id="<?php echo $row['Field']; ?>_<?php echo $olds; ?>_SHOW" value="SHOW" checked> SHOW
                     <input type="radio" name="<?php echo $row['Field']; ?>" id="<?php echo $row['Field']; ?>_<?php echo $olds; ?>_HIDE" value="HIDE"> HIDE
-                  <!-- </div> -->
                 </div>
                 <div class="col-sm-1"></div>
             <?php 

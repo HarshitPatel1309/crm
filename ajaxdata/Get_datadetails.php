@@ -90,7 +90,7 @@ if (isset($_POST['matchfiled'])){
     } else {
     while($row=mysqli_fetch_array($result5))
     {
-        if ('tbl_role' === $row['Tables_in_' . $dbname] || 'tbl_users' === $row['Tables_in_' . $dbname] || 'tbl_login' === $row['Tables_in_' . $dbname] || 'tbl_filedset' === $row['Tables_in_' . $dbname] || 'tbl_showhide' === $row['Tables_in_' . $dbname] || 'tbl_Payment_Type' === $row['Tables_in_' . $dbname]) {
+        if ('tbl_role' === $row['Tables_in_' . $dbname] || 'tbl_users' === $row['Tables_in_' . $dbname] || 'tbl_login' === $row['Tables_in_' . $dbname] || 'tbl_filedset' === $row['Tables_in_' . $dbname] || 'tbl_showhide' === $row['Tables_in_' . $dbname] || 'tbl_relationship' === $row['Tables_in_' . $dbname]) {
         }else{
           ?>
             <option value='<?php echo $row['Tables_in_' . $dbname]; ?>'><?php echo $row['Tables_in_' . $dbname]; ?></option>
@@ -132,12 +132,12 @@ if (isset($_POST['matchfiled'])){
     if ($result6->num_rows <= 0) {
         echo "00000";
     } else {
-    while($row7=mysqli_fetch_array($result6))
+    while($row=mysqli_fetch_array($result6))
     {
-        if ('tbl_role' === $row7['Tables_in_' . $dbname] || 'tbl_users' === $row7['Tables_in_' . $dbname] || 'tbl_login' === $row7['Tables_in_' . $dbname] || 'tbl_filedset' === $row7['Tables_in_' . $dbname] || 'tbl_showhide' === $row7['Tables_in_' . $dbname] || 'tbl_Payment_Type' === $row7['Tables_in_' . $dbname]) {
+        if ('tbl_role' === $row['Tables_in_' . $dbname] || 'tbl_users' === $row['Tables_in_' . $dbname] || 'tbl_login' === $row['Tables_in_' . $dbname] || 'tbl_filedset' === $row['Tables_in_' . $dbname] || 'tbl_showhide' === $row['Tables_in_' . $dbname] || 'tbl_relationship' === $row['Tables_in_' . $dbname]) {
         }else{
           ?>
-            <option value="<?php echo $row7['Tables_in_' . $dbname];?>"<?php if($row7['Tables_in_' . $dbname]==$data7){?> selected="selected" <?php } ?>><?php echo $row7['Tables_in_' . $dbname];?></option>
+            <option value="<?php echo $row['Tables_in_' . $dbname];?>"<?php if($row['Tables_in_' . $dbname]==$data7){?> selected="selected" <?php } ?>><?php echo $row['Tables_in_' . $dbname];?></option>
           <?php
         }
     }
@@ -149,7 +149,7 @@ if (isset($_POST['matchfiled'])){
   if (isset($_POST['relationfiled_sn'])){  
     $data8 = $_POST['relationfiled_sn'];
 
-    $sqln8 = "DESCRIBE ".$_POST['relationtable_sn']."";
+    $sqln8 = "DESCRIBE ".$_POST['relationtable_sng']."";
     $result8=mysqli_query($conn,$sqln8);
       while ($row8 = mysqli_fetch_assoc($result8)) {
         ?>
@@ -158,4 +158,54 @@ if (isset($_POST['matchfiled'])){
       }
   }
   // VIEW RELATION TABLE FILED
+
+  // AUTO FETCH FILED USING TABLE
+  if (isset($_POST['viewrelfiled_id'])){  
+    $data9 = $_POST['viewrelfiled_id'];
+
+    $sqln9 = "DESCRIBE ".$_POST['viewrelfiled_id']."";
+    $result9=mysqli_query($conn,$sqln9);
+      while ($row9 = mysqli_fetch_assoc($result9)) {
+        ?>
+        <option value="<?php echo $row9['Field'];?>"><?php echo $row9['Field'];?></option>
+        <?php
+      }
+  }
+  // AUTO FETCH FILED USING TABLE
+
+  // SHOW HIDE TABLE
+  if (isset($_POST['showhide_table'])){  
+    $data10 = $_POST['showhide_table'];
+
+    $result10=mysqli_query($conn,"SHOW TABLES");
+    if ($result10->num_rows <= 0) {
+        echo "00000";
+    } else {
+    while($row=mysqli_fetch_array($result10))
+    {
+        if ('tbl_role' === $row['Tables_in_' . $dbname] || 'tbl_users' === $row['Tables_in_' . $dbname] || 'tbl_login' === $row['Tables_in_' . $dbname] || 'tbl_filedset' === $row['Tables_in_' . $dbname] || 'tbl_showhide' === $row['Tables_in_' . $dbname] || 'tbl_relationship' === $row['Tables_in_' . $dbname]) {
+        }else{
+          ?>
+            <option value='<?php echo $row['Tables_in_' . $dbname]; ?>'><?php echo $row['Tables_in_' . $dbname]; ?></option>
+          <?php
+        }
+    }
+    }
+  }
+  // SHOW HIDE TABLE
+
+  // SHOW HIDE FILED
+   if (isset($_POST['relshowhidefiled_id'])){  
+    $data11 = $_POST['relshowhidefiled_id'];
+
+    $sqln11 = "DESCRIBE ".$_POST['relshowhidefiled_id']."";
+    $olds = 1;
+    $result11=mysqli_query($conn,$sqln11);
+      while ($row4 = mysqli_fetch_assoc($result11)) {
+        ?>
+        <option value="<?php echo $row4['Field'];?>"><?php echo $row4['Field'];?></option>
+        <?php
+      }
+  }
+  // SHOW HIDE FILED
 ?>

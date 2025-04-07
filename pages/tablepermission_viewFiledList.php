@@ -83,14 +83,6 @@
         </div>
       </div>
       
-    <div class="clearfix">&nbsp;</div>
-    <div class="row clearfix">                                
-        <div class="col-sm-12">
-          <center>
-            <button type="submit" name="submit" id="update_filed" class="btn btn-primary">Submit</button>
-            <a href="javascript:void(0);" onclick="viewexam();" class="btn btn-outline-secondary"> Cancel</a>
-          </center>  
-        </div>
-    </div>
+    
 <input type="hidden" name="hideoldtotalview" id="hideoldtotalview" class="form-control" placeholder="Filed Name" value="<?php echo $index-1; ?>">
 <?php } ?>

@@ -24,11 +24,12 @@
           <div class="col-sm-9">
             <div class="form-group">
               <select class="form-control m-wrap" name="txttablenameview" id="txttablenameview" onchange="tabletypeloadview()">
+                <option value='0'>Select Table</option>
                 <?php 
                   $result=mysqli_query($conn,"SHOW TABLES");
                   while($row=mysqli_fetch_array($result))
                   {
-                      if ('tbl_role' === $row['Tables_in_' . $dbname] || 'tbl_users' === $row['Tables_in_' . $dbname] || 'tbl_login' === $row['Tables_in_' . $dbname] || 'tbl_filedset' === $row['Tables_in_' . $dbname] || 'tbl_showhide' === $row['Tables_in_' . $dbname]) {
+                      if ('tbl_role' === $row['Tables_in_' . $dbname] || 'tbl_users' === $row['Tables_in_' . $dbname] || 'tbl_login' === $row['Tables_in_' . $dbname] || 'tbl_filedset' === $row['Tables_in_' . $dbname] || 'tbl_showhide' === $row['Tables_in_' . $dbname] || 'tbl_Payment_Type' === $row['Tables_in_' . $dbname] || 'tbl_relationship' === $row['Tables_in_' . $dbname]) {
                       }else{
                         ?>
                           <option value='<?php echo $row['Tables_in_' . $dbname]; ?>'><?php echo $row['Tables_in_' . $dbname]; ?></option>
@@ -45,7 +46,15 @@
       <hr>
       
       <div id="getfileddetailsview"></div>
-
+      <div class="clearfix">&nbsp;</div>
+      <div class="row clearfix" id="buttonshowhide">                                
+          <div class="col-sm-12">
+            <center>
+              <button type="submit" name="submit" id="update_filed" class="btn btn-primary">Update</button>
+              <a href="javascript:void(0);" onclick="viewexam();" class="btn btn-outline-secondary"> Cancel</a>
+            </center>  
+          </div>
+      </div>
     
   </form>
 
@@ -60,6 +69,7 @@
       // ADD FILED CODE
     $("#update_filed").click(function(e) {
         e.preventDefault();
+        
             document.getElementById("loaderaddedit").style.display = "block";
             
 
@@ -115,6 +125,7 @@
                               // updategetdata(hidetxtold_vals,txtold_vals,txttablename_val);
                           // }                  
                         }
+                        console.log(dynamicArrayView);
                       nitiview(txttablenameview_val,tablemenuview_val,dynamicArrayView);
                       document.getElementById("loaderaddedit").style.display = "none";
                       viewinformation();
@@ -151,14 +162,21 @@
       }
       function tabletypeloadview(){
         var strUser = document.getElementById("txttablenameview").value;
-        $('#getfileddetailsview').html('');              
-        $.ajax({
-            type:'POST',
-            url:'tablepermission_viewFiledList.php',
-            data:'sid='+strUser,
-            success:function(html){
-                  $('#getfileddetailsview').html(html);              
-            }
-        });
+        if(strUser == '0'){
+          document.getElementById("buttonshowhide").style.display = "none";
+          $('#getfileddetailsview').html(''); 
+        }else{
+          document.getElementById("buttonshowhide").style.display = "block";
+          $('#getfileddetailsview').html('');              
+          $.ajax({
+              type:'POST',
+              url:'tablepermission_viewFiledList.php',
+              data:'sid='+strUser,
+              success:function(html){
+                    $('#getfileddetailsview').html(html);              
+              }
+          });
+        }
+        
       }
 </script>

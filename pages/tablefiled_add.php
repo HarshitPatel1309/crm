@@ -77,7 +77,7 @@
                   $result=mysqli_query($conn,"SHOW TABLES");
                   while($row=mysqli_fetch_array($result))
                   {
-                      if ('tbl_role' === $row['Tables_in_' . $dbname] || 'tbl_users' === $row['Tables_in_' . $dbname] || 'tbl_login' === $row['Tables_in_' . $dbname] || 'tbl_filedset' === $row['Tables_in_' . $dbname] || 'tbl_showhide' === $row['Tables_in_' . $dbname] || 'tbl_Payment_Type' === $row['Tables_in_' . $dbname]) {
+                      if ('tbl_role' === $row['Tables_in_' . $dbname] || 'tbl_users' === $row['Tables_in_' . $dbname] || 'tbl_login' === $row['Tables_in_' . $dbname] || 'tbl_filedset' === $row['Tables_in_' . $dbname] || 'tbl_showhide' === $row['Tables_in_' . $dbname] || 'tbl_relationship' === $row['Tables_in_' . $dbname]) {
                       }else{
                         ?>
                           <option value='<?php echo $row['Tables_in_' . $dbname]; ?>'><?php echo $row['Tables_in_' . $dbname]; ?></option>
@@ -230,8 +230,25 @@
 
                           var txtfiledtype ="txtfiledtype"+frcr;
                           var txtfiledtype_vals =document.getElementById(txtfiledtype).value;
+
+                          var viewtxtrel_val = "viewtxtrel"+frcr;
+                          var viewtxtrel1_val = document.getElementById(viewtxtrel_val).value;
+      
+                          var reltxttableview_val = "reltxttableview"+frcr;
+                          var reltxttableview1_val = document.getElementById(reltxttableview_val).value;
+
+                          var reltxtfiledview_val = "reltxtfiledview"+frcr;
+                          var reltxtfiledview1_val = document.getElementById(reltxtfiledview_val).value;
                           
-                          updategetdata(hidetxtold_vals,txtold_vals,txttablename_val,txtfiledtype_vals);
+                          var hidetableoldname_val = "hidetableoldname"+frcr;
+                          var hidetableoldname1_val = document.getElementById(hidetableoldname_val).value;
+
+                          var hidefiledoldname_val = "hidefiledoldname"+frcr;
+                          var hidefiledoldname1_val = document.getElementById(hidefiledoldname_val).value;
+                          
+                          updategetdata(hidetxtold_vals,txtold_vals,txttablename_val,txtfiledtype_vals,viewtxtrel1_val,reltxttableview1_val,reltxtfiledview1_val,hidetableoldname1_val,hidefiledoldname1_val);
+                          
+                          // updategetdata(hidetxtold_vals,txtold_vals,txttablename_val,txtfiledtype_vals);
 
                           // alert(frcr+"loop"+hideoldtotal);
                       }
@@ -292,8 +309,23 @@
                             
                             var txtfiledtype ="txtfiledtype"+frcr;
                             var txtfiledtype_vals =document.getElementById(txtfiledtype).value;
+
+                            var viewtxtrel_val = "viewtxtrel"+frcr;
+                            var viewtxtrel1_val = document.getElementById(viewtxtrel_val).value;
+        
+                            var reltxttableview_val = "reltxttableview"+frcr;
+                            var reltxttableview1_val = document.getElementById(reltxttableview_val).value;
+
+                            var reltxtfiledview_val = "reltxtfiledview"+frcr;
+                            var reltxtfiledview1_val = document.getElementById(reltxtfiledview_val).value;
+
+                            var hidetableoldname_val = "hidetableoldname"+frcr;
+                            var hidetableoldname1_val = document.getElementById(hidetableoldname_val).value;
+
+                            var hidefiledoldname_val = "hidefiledoldname"+frcr;
+                            var hidefiledoldname1_val = document.getElementById(hidefiledoldname_val).value;
                             
-                            updategetdata(hidetxtold_vals,txtold_vals,txttablename_val,txtfiledtype_vals);
+                            updategetdata(hidetxtold_vals,txtold_vals,txttablename_val,txtfiledtype_vals,viewtxtrel1_val,reltxttableview1_val,reltxtfiledview1_val,hidetableoldname1_val,hidefiledoldname1_val);
                             // alert(frcr+"loop"+hideoldtotal);
                         }
 
@@ -361,21 +393,35 @@
     // ADD MORE INSERT
 
       // UPDATE OLD FILED
-      function updategetdata(hf, nk,msgcnt, ttype){
+      function updategetdata(hf, nk,msgcnt, ttype,viewtxtrel1_val,reltxttableview1_val,reltxtfiledview1_val,hidetable,hidefiled){
 
         var addmoredataid = msgcnt;        
         var txtfiled1_val = nk;
         var hidefiled1_val = hf;
         var txttype1_val = ttype;
+
+        var viewtxtrel1_val1 = viewtxtrel1_val;
+        var reltxttableview1_val1 = reltxttableview1_val;
+        var reltxtfiledview1_val1 = reltxtfiledview1_val;
+
+        var hidetableoldname1_val = hidetable;
+        var hidefiledoldname1_val = hidefiled;
         
         $.post("../ajaxdata/pages/update/ajax_filed.php", {
             txttablename_val1: addmoredataid,
             txtfiled1_val1: txtfiled1_val,
             hidefiled1_val1: hidefiled1_val,
-            txttype1_val1: txttype1_val
+            txttype1_val1: txttype1_val,
+            viewtxtrel1_val1: viewtxtrel1_val1,
+            reltxttableview1_val1: reltxttableview1_val1,
+            reltxtfiledview1_val1: reltxtfiledview1_val1,
+            hidetableoldname1_val1: hidetableoldname1_val,
+            hidefiledoldname1_val1: hidefiledoldname1_val
+
 
           }, function(data) {
             // alert(data);
+            // console.log(data);
           });
       }
     // UPDATE OLD FILED
@@ -410,7 +456,20 @@
           document.getElementById(relationid).style.display = "block";
         }
       }
+      function viewrelationload(i){
+        var uds = "viewtxtrel"+i;
+        var relationid = "relationviewid"+i;
+        var strUser = document.getElementById(uds).value;
+        if(strUser=="no")
+        {
+          document.getElementById(relationid).style.display = "none";
+        }else{
+          document.getElementById(relationid).style.display = "block";
+          reltableloadviewshowhide(i);
+        }
+      }
     // RELATION DETAILS LOAD
+
     // CLASS DATA LOAD
       function FILEDloadpages(){
         var strUser = document.getElementById("txttablename").value;
@@ -524,12 +583,77 @@
             $("#txtfiledtype"+strUser).html('<option value="0">No Filed Type </option>');
         }
       }
+
+      function reltableloadview(i){
+        var tablerecdynamic = "reltxttableview"+i;
+        var strUser = document.getElementById(tablerecdynamic).value;
+        if(strUser){
+            $.ajax({
+                type:'POST',
+                url:'../ajaxdata/Get_datadetails.php',
+                data:'viewrelfiled_id='+strUser,
+                success:function(html){
+                    var htmlstring = html.trim();
+                    if(htmlstring == "00000"){
+                      $("#reltxtfiledview"+i).html('<option value="0">No Filed Type </option>');
+                    }else{
+                      $("#reltxtfiledview"+i).html(html);
+                    }
+                }
+            }); 
+        }else{
+            $("#reltxtfiledview"+i).html('<option value="0">No Filed Type </option>');
+        }
+      }
+
+      function reltableloadviewshowhide(i){
+        var strUser = i;
+        if(strUser){
+            $.ajax({
+                type:'POST',
+                url:'../ajaxdata/Get_datadetails.php',
+                data:'showhide_table='+strUser,
+                success:function(html){
+                    var htmlstring = html.trim();
+                    if(htmlstring == "00000"){
+                      $("#reltxttableview"+strUser).html('<option value="0">No Filed Type </option>');
+                    }else{
+                      $("#reltxttableview"+strUser).html(html);
+                      relfiledoadviewshowhide(i);
+                    }
+                }
+            }); 
+        }else{
+            $("#reltxttableview"+strUser).html('<option value="0">No Filed Type </option>');
+        }
+      }
+      function relfiledoadviewshowhide(i){
+        var tablerecdynamic = "reltxttableview"+i;
+        // alert(tablerecdynamic);
+        var strUser = document.getElementById(tablerecdynamic).value;
+        if(strUser){
+            $.ajax({
+                type:'POST',
+                url:'../ajaxdata/Get_datadetails.php',
+                data:'relshowhidefiled_id='+strUser,
+                success:function(html){
+                    var htmlstring = html.trim();
+                    if(htmlstring == "00000"){
+                      $("#reltxtfiledview"+i).html('<option value="0">No Filed Type </option>');
+                    }else{
+                      $("#reltxtfiledview"+i).html(html);
+                    }
+                }
+            }); 
+        }else{
+            $("#reltxtfiledview"+i).html('<option value="0">No Filed Type </option>');
+        }
+      }
       // FILED GETS
 
      
         function greetUser(tname,fname,viewid) {
-            console.log(tname+"=="+fname);
-
+        
             var tnames = tname;
             var fnames = fname;
             var viewiddis = "relationviewid"+viewid;
@@ -540,7 +664,7 @@
                     url:'../ajaxdata/Get_datadetails.php',
                     data:'tnames_id='+tnames+'&fnames_id='+fnames,
                     success:function(html){
-                      console.log(html);
+                      // console.log(html);
                         var json = html;
                         obj = jQuery.parseJSON(json);
 
@@ -553,9 +677,13 @@
                         {
                           document.getElementById(viewiddis).style.display = "none";
                           $("#"+viewtxtrel).html('<option value="no" selected>NO</option><option value="yes">YES</option>');
+                          document.getElementById("hidetableoldname"+viewid).value = '';
+                          document.getElementById("hidefiledoldname"+viewid).value = '';
                         }else{
                           document.getElementById(viewiddis).style.display = "block";
                           $("#"+viewtxtrel).html('<option value="no">NO</option><option value="yes" selected>YES</option>');
+                          document.getElementById("hidetableoldname"+viewid).value = relationtable_sn;
+                          document.getElementById("hidefiledoldname"+viewid).value = relationfiled_sn;
 
                           if(relationtable_sn){
                               $.ajax({
@@ -577,10 +705,10 @@
                               $.ajax({
                                   type:'POST',
                                   url:'../ajaxdata/Get_datadetails.php',
-                                  data:'relationfiled_sn='+relationfiled_sn+'&relationtable_sn='+relationtable_sn,
-                                  success:function(html1){
-                                      var htmlstring1 = html1.trim();
-                                      if(htmlstring1 == "00000"){
+                                  data:'relationfiled_sn='+relationfiled_sn+'&relationtable_sng='+relationtable_sn,
+                                  success:function(html){
+                                      var htmlstring = html.trim();
+                                      if(htmlstring == "00000"){
                                         $("#reltxtfiledview"+viewid).html('<option value="0">No Filed Type </option>');
                                       }else{
                                         $("#reltxtfiledview"+viewid).html(html);

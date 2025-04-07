@@ -9,6 +9,7 @@
   $result=mysqli_query($conn,$sql);
     while ($row = mysqli_fetch_assoc($result)) {
       if($row['Field']=='id'){ ?>
+        <div class="box">
           <div class="row clearfix">
             <div class="col-sm-1">
             </div>
@@ -41,6 +42,7 @@
             <div class="col-sm-2">
             </div>
           </div>
+        </div>
       <?php
         }else{
       ?>
@@ -57,8 +59,9 @@
               <input type="hidden" name="hidetxtold<?php echo $olds; ?>" id="hidetxtold<?php echo $olds; ?>" class="form-control" placeholder="Filed Name" value="<?php echo $row['Field']; ?>">
               <input type="text" name="txtold<?php echo $olds; ?>" id="txtold<?php echo $olds; ?>" class="form-control" placeholder="Filed Name" value="<?php echo $row['Field']; ?>">
 
-
+              <!-- CALL FUNCATION DETAILS -->
               <script>greetUser("<?php echo $_POST['sid']; ?>","<?php echo $row['Field']; ?>",<?php echo $olds; ?>);</script>
+              <!-- CALL FUNCATION DETAILS -->
 
 
             </div>
@@ -82,7 +85,7 @@
             <div class="col-sm-2">
               <div class="form-group">
                 <label>Relation<span class="required" style="color: red;">*</span></label>
-                <select class="form-control m-wrap" name="viewtxtrel<?php echo $olds; ?>" id="viewtxtrel<?php echo $olds; ?>" onchange="relationload()">
+                <select class="form-control m-wrap" name="viewtxtrel<?php echo $olds; ?>" id="viewtxtrel<?php echo $olds; ?>" onchange="viewrelationload('<?php echo $olds; ?>')">
                 </select>
               </div>
             </div>
@@ -90,13 +93,18 @@
           </div>
         </div>
 
+        <!-- HIDE VALUE SAVE -->
+        <input type="hidden" id="hidetableoldname<?php echo $olds; ?>" value="">
+        <input type="hidden" id="hidefiledoldname<?php echo $olds; ?>" value="">
+
+        <!-- HIDE VALUE SAVE -->
         <div id="relationviewid<?php echo $olds; ?>">
           <div class="row clearfix" >
             <div class="col-sm-3"></div>
               <div class="col-sm-3">
                   <div class="form-group">
                     <label>Relation Table Name <span class="required" style="color: red;">*</span></label>
-                    <select class="form-control m-wrap" name="reltxttableview<?php echo $olds; ?>" id="reltxttableview<?php echo $olds; ?>" onchange="reltableloadview()"></select>
+                    <select class="form-control m-wrap" name="reltxttableview<?php echo $olds; ?>" id="reltxttableview<?php echo $olds; ?>" onchange="reltableloadview('<?php echo $olds; ?>')"></select>
                   </div>
               </div>
               <div class="col-sm-3">
